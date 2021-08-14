@@ -16,91 +16,11 @@ import pickle
 def rmse(predictions,target,axis=0):
     rmse = np.sqrt(np.mean((predictions-target)**2,axis=axis))
     return rmse
-# def create_plots(N,dist_matrix,type="variance",savefig=False,filename="name"):
-#     names = ['person','depth','seed','person x depth', 'person x seed', 'depth x seed', 'residual']
-#     current_path = os.path.abspath(os.getcwd())
-#     my_file = 'results\{}.pdf'.format(filename)
-#     if (savefig==True): pp = PdfPages(os.path.join(current_path, my_file))
-#     for i in range(7):
-#         fig = plt.figure(figsize=(8,4))
-#         ax = fig.add_subplot()
-#         sns.distplot(dist_matrix[:,i], hist=True, kde=True, 
-#                 bins=int(180/5), color = 'darkblue', 
-#                 hist_kws={'edgecolor':'black'},
-#                 kde_kws={'linewidth': 4},ax=ax)
-#         plt.axvline(np.mean(dist_matrix[:,i]),color='red')
-#         ax.set_title(names[i]+" "+type+" "+"distribution (N="+str(N)+")")
-#         ax.set_ylabel('probability density')
-#         ax.set_xlabel(fr'$\sigma^2({names[i]})$')
-#         if (savefig==True): 
-#             pp.savefig()
-#     if (savefig==True): pp.close()
-# numsims=[250,500,1000,2000]
-# names = ['person','depth','seed','person x depth', 'person x seed', 'depth x seed', 'person x depth x seed']
-
-
-#names = ['person','seed','person x seed']
-# for l in range(len(numsims)):
-#     num = numsims[l]
-#     with open("Var_reg2_"+str(num)+"_"+str(2)+".pickle","rb") as file:
-#         data = pickle.load(file)
-#         current_path = os.path.abspath(os.getcwd())
-#     filename = str(num)+"_var_results"+str(2)
-#     my_file = 'results\{}.pdf'.format(filename)
-#     pp = PdfPages(os.path.join(current_path, my_file))
-#     fig = plt.figure(figsize=(16,4))
-#     axs = fig.subplots(nrows=1,ncols=4)
-#     fig.set_tight_layout(True)
-#     fig.suptitle("Variance distribution (N="+str(num)+")", x=0.9,y=0.5)
-#     fig.subplots_adjust(top=0.95)
-#     for i in range(data.shape[1]):
-#         k=0;j=0
-#         if (i>3):k=1;j=i-4
-#         else:j=i
-#         sns.distplot(data[:,i], hist=True, kde=True, 
-#                     bins=int(180/5), color = 'darkblue', 
-#                     hist_kws={'edgecolor':'black'},
-#                     kde_kws={'linewidth': 4},ax=axs[i])
-#         axs[i].axvline(np.mean(data[:,i]),color='red')
-#         plt.setp(axs[i].get_xticklabels(), rotation=30, horizontalalignment='right')
-#         axs[i].set_ylabel('probability density')
-#         axs[i].set_xlabel(fr'$\sigma^2({names[i]})$')
-#     fig.delaxes(axs[3])
-#     pp.savefig()
-#     pp.close()
-
-# for l in range(len(numsims)):
-#     num = numsims[l]
-#     with open("Var_reg2_"+str(num)+".pickle","rb") as file:
-#         data = pickle.load(file)
-#         current_path = os.path.abspath(os.getcwd())
-#     filename = str(num)+"_var_results"
-#     my_file = 'results\{}.pdf'.format(filename)
-#     pp = PdfPages(os.path.join(current_path, my_file))
-#     fig = plt.figure(figsize=(16,8))
-#     axs = fig.subplots(nrows=2,ncols=4)
-#     fig.set_tight_layout(True)
-#     fig.suptitle("Variance distribution (N="+str(num)+")", x=0.9,y=0.25)
-#     fig.subplots_adjust(top=0.95)
-#     for i in range(data.shape[1]):
-#         k=0;j=0
-#         if (i>3):k=1;j=i-4
-#         else:j=i
-#         sns.distplot(data[:,i], hist=True, kde=True, 
-#                     bins=int(180/5), color = 'darkblue', 
-#                     hist_kws={'edgecolor':'black'},
-#                     kde_kws={'linewidth': 4},ax=axs[k,j])
-#         axs[k,j].axvline(np.mean(data[:,i]),color='red')
-#         plt.setp(axs[k,j].get_xticklabels(), rotation=30, horizontalalignment='right')
-#         axs[k,j].set_ylabel('probability density')
-#         axs[k,j].set_xlabel(fr'$\sigma^2({names[i]})$')
-#     fig.delaxes(axs[1][3])
-#     pp.savefig()
-#     pp.close()
 
 def normalize(vec):
     new_vec = [vec[i]/np.sum(vec) for i in range(len(vec))]
     return new_vec
+
 type = 'di'
 numsims=[250,500,1000]
 names = ['mu','sigma2_p','sigma2_s','sigm2_d','sigma2_ps','sigma2_pd','sigma2_ds','sigma2_pds']
@@ -119,7 +39,7 @@ for j in range(len(numsims)):
     import os
     
     path = os.getcwd()
-    newpath=os.path.join(path,'output_di_'+str(N)+'_1000')
+    newpath=os.path.join(path,'4_mc1\output_di_'+str(N)+'_1000')
     os.chdir(newpath)
     files = [i for i in os.listdir(newpath) if os.path.isfile(os.path.join(newpath,i)) and 'output_'+type+'_3' in i]
     for i in range(len(files)):
@@ -127,13 +47,11 @@ for j in range(len(numsims)):
             os.path.join(newpath, files[i]),
             engine='openpyxl')
     if (type=='di'):
-        display('test')
         normed_data = np.array([normalize(data[i,:]) for i in range(data.shape[0])])
         results[j,:] = np.mean(normed_data,axis=0)
         results[j+3,:] = np.mean(np.abs(normed_data-normed_true),axis=0)
         results[j+6,:] = np.std(normed_data,axis=0)
         results[j+9,:] = rmse(normed_data,normed_true)
-        display('test2')
     else:
         results[j,:] = np.mean(data,axis=0)
         results[j+3,:] = np.mean(np.abs(data-true),axis=0)

@@ -1,13 +1,13 @@
 import pickle
 import os
 from IPython.display import display
-from numpy.core.fromnumeric import var
-from numpy.lib.function_base import disp
 import pandas as pd
 import numpy as np
 
+path = os.getcwd()
+os.chdir(os.path.join(path,'5_application/results_OMH'))
 facet=[2,3]
-exp = 2
+exp = 1
 types = ['depth','trees']
 nums = ['1000','all']
 
@@ -23,9 +23,9 @@ for i in range(6):
             for n in nums:
                 numobs = n
                 if (facets==2):
-                    pathname = 'results/exp'+str(exp)+'_results_'+str(facets)+'_seed_'+numobs
+                    pathname = 'exp'+str(exp)+'_results_'+str(facets)+'_seed_'+numobs
                 else:
-                    pathname = 'results/exp'+str(exp)+'_results_'+str(facets)+'_seed_'+type2+'_'+numobs
+                    pathname = 'exp'+str(exp)+'_results_'+str(facets)+'_seed_'+type2+'_'+numobs
 
                 
                 path = os.getcwd()
@@ -45,7 +45,6 @@ for i in range(6):
         data2 = pd.Series(varcomps)
         data = pd.concat([data1,data2],keys=['g','v'])
         df=pd.DataFrame(data)
-        display(df)
         df.to_excel('results_exp'+str(exp)+'_'+str(facets)+'_facets.xlsx')  
           
                     

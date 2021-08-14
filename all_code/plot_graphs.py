@@ -8,7 +8,7 @@ from matplotlib import cm
 import os
 import numpy as np
 path = os.getcwd()
-os.chdir(os.path.join(path,'cors'))
+os.chdir(os.path.join(path,'5_application/cors/output_files'))
 
 data = np.array(pd.read_excel('results_cors_exp2_3_facets_depth.xlsx'))
 n_s = data.shape[0]

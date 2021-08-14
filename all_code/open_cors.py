@@ -1,30 +1,15 @@
-import sys
 import os
-import json
 from IPython.display import display
-from sklearn import datasets
-from sklearn.datasets import load_boston
-from sklearn.datasets import load_iris
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import accuracy_score
-from notebooks import training_settings
-import pandas as pd
+
 import matplotlib.pyplot as plt
-import itertools
 import numpy as np
-import inquirer
-from scipy.stats import t
-from tqdm import tqdm
 from matplotlib.backends.backend_pdf import PdfPages
-import time
 import pickle
 import seaborn as sns
 
 
-
+path = os.getcwd()
+os.chdir(os.path.join(path,'5_application\cors'))
 
 
 

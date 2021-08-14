@@ -1,13 +1,7 @@
-from matplotlib.markers import MarkerStyle
-from numpy.lib.function_base import disp
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-import pickle
 import matplotlib.pyplot as plt
 from IPython.display import display
 import numpy as np
-import os
 from tqdm import tqdm
 
 obs = [250,500,1000]
