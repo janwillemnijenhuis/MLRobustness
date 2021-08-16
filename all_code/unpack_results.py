@@ -6,6 +6,9 @@ from numpy.lib.function_base import disp
 import pandas as pd
 import numpy as np
 
+path0 = os.getcwd()
+os.chdir(os.path.join(path0,'5_application/results_OMH'))
+
 facet=[2,3]
 exp = 2
 types = ['depth','trees']
@@ -23,17 +26,18 @@ for i in range(6):
             for n in nums:
                 numobs = n
                 if (facets==2):
-                    pathname = 'results/exp'+str(exp)+'_results_'+str(facets)+'_seed_'+numobs
+                    pathname = 'exp'+str(exp)+'_results_'+str(facets)+'_seed_'+numobs
                 else:
-                    pathname = 'results/exp'+str(exp)+'_results_'+str(facets)+'_seed_'+type2+'_'+numobs
+                    pathname = 'exp'+str(exp)+'_results_'+str(facets)+'_seed_'+type2+'_'+numobs
 
                 
                 path = os.getcwd()
                 newpath = os.path.join(path,pathname)
                 os.chdir(newpath)
+                display(os.getcwd())
                 files = os.listdir(newpath)
                 for p in files:
-                    if('omh_var_results' in p):
+                    if('omh_var_components' in p):
                         with open(p,'rb') as file:
                             data = pickle.load(file)
                         if (facets==2):
